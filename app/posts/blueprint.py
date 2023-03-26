@@ -35,7 +35,20 @@ def posts_list():
         posts =Post.query.filter(Post.title.contains(q)| Post.body.contains(q))
     else:
         posts = Post.query.order_by(Post.date_created.desc())
-    return render_template('posts/post.html', posts = posts)
+        
+        page = request.args.get('page')
+        
+        if page and page.isdigit():
+            page = int(page)
+        else:
+            page =1
+
+        pages= posts.paginate(page= page, per_page = 1)
+            
+        
+        
+        
+    return render_template('posts/post.html', posts = posts, pages= pages)
 
 
 @posts.route('/<slug>') 
