@@ -36,18 +36,14 @@ def posts_list():
     else:
         posts = Post.query.order_by(Post.date_created.desc())
         
-        page = request.args.get('page')
+    page = request.args.get('page')
         
-        if page and page.isdigit():
-            page = int(page)
-        else:
-            page =1
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page =1
 
-        pages= posts.paginate(page= page, per_page = 1)
-            
-        
-        
-        
+    pages= posts.paginate(page= page, per_page = 1)
     return render_template('posts/post.html', posts = posts, pages= pages)
 
 
@@ -55,7 +51,7 @@ def posts_list():
 def post_details(slug):
     post = Post.query.filter(Post.slug == slug).first()
     return render_template('posts/post_detail.html', post = post) 
-
+ 
 @posts.route('/tags/<slug>')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first()
